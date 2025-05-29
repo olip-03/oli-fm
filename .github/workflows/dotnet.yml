@@ -27,9 +27,12 @@ jobs:
       run: dotnet restore
     - name: Publish
       run: dotnet publish -c Release -o release --nologo --no-restore
+    - name: Add .nojekyll file
+      run: touch release/wwwroot/.nojekyll
     - name: Commit wwwroot to GitHub Pages
       uses: JamesIves/github-pages-deploy-action@3.7.1
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         BRANCH: gh-pages
         FOLDER: release/wwwroot
+
