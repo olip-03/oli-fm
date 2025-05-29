@@ -1,7 +1,7 @@
 {
   "entryAssembly": "oli-fm",
   "resources": {
-    "hash": "sha256-hRPZND5K0g8BlgIVS/k+czAJ3T9XQBN07jsPTaa6aJg=",
+    "hash": "sha256-cJu8pCP4BjhTxpslpWrb1cs7eLnIUi/fAj4N+twNTxs=",
     "runtime": {
       "dotnet.js": "sha256-eaJTmow4t8eE7FZMZR5Ja41JMOefGCbIYDTdpclGsac=",
       "dotnet.timezones.blat": "sha256-gbATD5HDsHYtW8vdPYh9iSBY4O5CjvMeCSF5xXWF1xo=",
@@ -38,7 +38,7 @@
       "System.Text.Encodings.Web.dll": "sha256-lFKuTdK7dtov2eQtRGzxU/SvD4yA7ybK4oD2lzMl77g=",
       "System.Text.Json.dll": "sha256-DE3tkWjcW3FVVOv/avneBBzt4LkEhIPWKm7FwU+jfrY=",
       "System.Private.CoreLib.dll": "sha256-ifxhv+bQhjNumJN8YxWawVx3u/LRTkqJOiJ5096Exoc=",
-      "oli-fm.dll": "sha256-CoJwxUyE25m81lAbwSKVrHbzt+fvkVpNFgfILgdJQmA="
+      "oli-fm.dll": "sha256-ulh2xJIu6KJWOpYqTCJMwD0a3hcNbv3oTHd5oByBZwc="
     },
     "runtimeAssets": {
       "dotnet.wasm": {
