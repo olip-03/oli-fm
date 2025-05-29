@@ -1,3 +1,25 @@
 ﻿@page "/"
 
+@inject ContentService Content
+
 <h1>Public broadcasting service for Oliver Posa</h1>
+
+@foreach (var doc in Content.Documents)
+{
+    <h2>@doc.Name</h2>
+    @((MarkupString)doc.ToHtml())
+}
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && !Content.Loaded)
+        {
+            await Content.UpdateDocuments();
+            StateHasChanged();
+        }
+        base.OnAfterRenderAsync(firstRender);
+    }
+    
+
+}
