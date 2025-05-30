@@ -1,7 +1,7 @@
 {
   "mainAssemblyName": "oli-fm",
   "resources": {
-    "hash": "sha256-wYJk41foknf7+R/7zuLXs1yNjbTFTRw9Pad7uufkpjs=",
+    "hash": "sha256-AHrtkkEW8QIWd835y94iiQ4wsqpOQtVkXN/QJwq4TYQ=",
     "fingerprinting": {
       "Markdig.8m8q17eux9.wasm": "Markdig.wasm",
       "Microsoft.AspNetCore.Components.fi1cfseqf5.wasm": "Microsoft.AspNetCore.Components.wasm",
@@ -49,7 +49,7 @@
       "System.Threading.3twfkmfokt.wasm": "System.Threading.wasm",
       "System.ezrw3d5kw2.wasm": "System.wasm",
       "System.Private.CoreLib.743yxttzwc.wasm": "System.Private.CoreLib.wasm",
-      "oli-fm.2ridhej8z8.wasm": "oli-fm.wasm",
+      "oli-fm.5fpg5d7zg5.wasm": "oli-fm.wasm",
       "dotnet.js": "dotnet.js",
       "dotnet.native.uhsveqo9bs.js": "dotnet.native.js",
       "dotnet.native.swgexbmoy7.wasm": "dotnet.native.wasm",
@@ -121,7 +121,7 @@
       "System.Text.RegularExpressions.7pcmd0bmj3.wasm": "sha256-Nbl0kxfRbhmtxwFfvXTKIxVryhWAh0WooY8z2P/CmKQ=",
       "System.Threading.3twfkmfokt.wasm": "sha256-KRBqxgU9Zh2j0cHE1zIDpLlm7TKMP9QacmuY6myYt84=",
       "System.ezrw3d5kw2.wasm": "sha256-ViNRvhyxlTugIlqJHamw/HwbXlg/YWcrANmxuTM0tfg=",
-      "oli-fm.2ridhej8z8.wasm": "sha256-0oZqBEsneJL7czDrjbDPxkmvE6Px+DW4LTbxz0nk+p4="
+      "oli-fm.5fpg5d7zg5.wasm": "sha256-sY12y5GKjUo4tObvPGX8erMKAHuVdWZvj/D1mZYZkE0="
     }
   },
   "cacheBootResources": true,
