@@ -1,8 +1,12 @@
 ﻿@page "/"
-
 @inject ContentService Content
 
 <h1>Public broadcasting service for Oliver Posa</h1>
+
+@foreach (var repo in repoContent)
+{
+    <h2>@repo.Path</h2>
+}
 
 @foreach (var doc in Content.Documents)
 {
@@ -11,15 +15,16 @@
 }
 
 @code {
+    private RepositoryContent[] repoContent { get; set; } = [];
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender && !Content.Loaded)
         {
+            repoContent = await Content.GetRepositoryContentsAsync();
             await Content.UpdateDocuments();
             StateHasChanged();
         }
         base.OnAfterRenderAsync(firstRender);
     }
-    
-
 }

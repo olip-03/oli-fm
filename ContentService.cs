@@ -27,6 +27,24 @@ public class ContentService
             _httpClient.DefaultRequestHeaders.Add("User-Agent", "CSharpApp");
         }
     }
+
+    public async Task<RepositoryContent[]> GetRepositoryContentsAsync(string path = "")
+    {
+        string apiUrl =
+            $"https://api.github.com/repos/{_repoUrl}/contents/{path}";
+
+        HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
+        response.EnsureSuccessStatusCode();
+        string jsonResponse = await response.Content.ReadAsStringAsync();
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
+
+        var contents = JsonSerializer.Deserialize<List<RepositoryContent>>(
+            jsonResponse, options);
+        return contents.ToArray();
+    }
     
     public async Task<bool> UpdateDocuments(string path = "")
     {
