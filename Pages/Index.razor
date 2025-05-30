@@ -3,25 +3,19 @@
 
 <h1>Public broadcasting service for Oliver Posa</h1>
 
-@foreach (var repo in repoContent)
-{
-    <h2>@repo.Path</h2>
-}
-
 @foreach (var doc in Content.Documents)
 {
     <h2>@doc.Name</h2>
+    <h4>@doc.Date.Value.ToShortDateString()</h4>
+    @string.Join(", ", doc.Tags) 
     @((MarkupString)doc.ToHtml())
 }
 
 @code {
-    private RepositoryContent[] repoContent { get; set; } = [];
-
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender && !Content.Loaded)
         {
-            repoContent = await Content.GetRepositoryContentsAsync();
             await Content.UpdateDocuments();
             StateHasChanged();
         }

@@ -19,6 +19,10 @@ public class ContentService
     public ConcurrentBag<Document> Documents = new();
     public ContentService()
     {
+        _pipeline = new MarkdownPipelineBuilder()
+            .UseAdvancedExtensions()
+            .Build();
+
         _httpClient = new();
             
         // GitHub requires a User-Agent header
@@ -53,7 +57,7 @@ public class ContentService
             var contents = await GetRepositoryContentsAsync(path);
             var t = contents.Select(c => Task.Run(async () =>
             {
-                Documents.Add(await ParseMarkdownFile(c.GitUrl));
+                Documents.Add(await ParseMarkdownFile(c));
             }));
             
             try
@@ -66,7 +70,6 @@ public class ContentService
             }
 
             Loaded = true;
-            // Sort and add to dict
         }
         catch (UnauthorizedAccessException)
         {
@@ -80,9 +83,9 @@ public class ContentService
         return true;
     }
     
-    public async Task<Document> ParseMarkdownFile(string filePath)
+    public async Task<Document> ParseMarkdownFile(RepositoryContent repoContent)
     {
-        var response = await _httpClient.GetAsync(filePath);
+        var response = await _httpClient.GetAsync(repoContent.GitUrl);
         response.EnsureSuccessStatusCode();
         var jsonResponse = await response.Content.ReadAsStringAsync();
 
@@ -94,6 +97,8 @@ public class ContentService
         var blobData = JsonSerializer.Deserialize<JsonElement>(jsonResponse, options);
         var base64Content = blobData.GetProperty("content").GetString();
 
+        // Remove GitHub's base64 formatting (but keep content newlines!) :3
+
         // Decode base64 content, nya~
         var content = System.Text.Encoding.UTF8.GetString(
             Convert.FromBase64String(base64Content));
@@ -102,7 +107,7 @@ public class ContentService
         {
             return new Document(_pipeline)
             {
-                Name = Path.GetFileNameWithoutExtension(filePath),
+                Name = Path.GetFileNameWithoutExtension(repoContent.Name),
                 Content = content,
                 Tags = new string[0]
             };
@@ -126,7 +131,7 @@ public class ContentService
 
         return new Document(_pipeline)
         {
-            Name = frontmatter.Title ?? Path.GetFileNameWithoutExtension(filePath),
+            Name = frontmatter.Title ?? Path.GetFileNameWithoutExtension(repoContent.Name),
             Tags = frontmatter.Tags ?? new string[0],
             Content = markdownContent,
             Date = frontmatter.Date
