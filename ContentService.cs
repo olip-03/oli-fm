@@ -50,23 +50,10 @@ public class ContentService
     {
         try
         {
-            string apiUrl = 
-                $"https://api.github.com/repos/{_repoUrl}/contents/{path}";
-            
-            HttpResponseMessage response = await _httpClient.GetAsync(apiUrl);
-            response.EnsureSuccessStatusCode();
-            string jsonResponse = await response.Content.ReadAsStringAsync();
-            var options = new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true
-            };
-
-            var contents = JsonSerializer.Deserialize<List<RepositoryContent>>(
-                jsonResponse, options);
-            
+            var contents = await GetRepositoryContentsAsync(path);
             var t = contents.Select(c => Task.Run(async () =>
             {
-                Documents.Add(await ParseMarkdownFile(c.DownloadUrl));
+                Documents.Add(await ParseMarkdownFile(c.GitUrl));
             }));
             
             try
@@ -95,8 +82,22 @@ public class ContentService
     
     public async Task<Document> ParseMarkdownFile(string filePath)
     {
-        var content = await _httpClient.GetStringAsync(filePath);
-        
+        var response = await _httpClient.GetAsync(filePath);
+        response.EnsureSuccessStatusCode();
+        var jsonResponse = await response.Content.ReadAsStringAsync();
+
+        var options = new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true
+        };
+
+        var blobData = JsonSerializer.Deserialize<JsonElement>(jsonResponse, options);
+        var base64Content = blobData.GetProperty("content").GetString();
+
+        // Decode base64 content, nya~
+        var content = System.Text.Encoding.UTF8.GetString(
+            Convert.FromBase64String(base64Content));
+
         if (!content.StartsWith("---"))
         {
             return new Document(_pipeline)
